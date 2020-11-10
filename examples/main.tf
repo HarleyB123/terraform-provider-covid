@@ -11,5 +11,5 @@ provider "covid" {}
 data "covid_world" "all" {}
 
 output "all_available_countries" {
-    value = data.covid_world.all
+    value = data.covid_world.all.countries
 }
