@@ -4,7 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
-	//"strconv"
+	"strconv"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -53,18 +53,18 @@ func dataSourceWorldRead(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 	defer r.Body.Close()
 
+	content, _ := ioutil.ReadAll(r.Body)
 	// Unmarshal data
 	allCountries := &covid{}
-	err = json.NewDecoder(r.Body).Decode(&allCountries)
-	println(err)
-	/*
+	err = json.Unmarshal(r.Body, &allCountries)
+
 	if err != nil {
 		return diag.FromErr(err)
 	}
 
 	countries := make([]map[string]interface{}, 0)
 	// Set broken values for all currently available city data
-	for _, v := range allCountries.Countries {
+	for _, v := range allCountries {
 		country := make(map[string]interface{})
 		country["country"] = v.Countries
 		country["cases"] = v.Cases
@@ -76,7 +76,7 @@ func dataSourceWorldRead(ctx context.Context, d *schema.ResourceData, m interfac
 
 	// Change ID every run to force update
 	d.SetId(strconv.FormatInt(time.Now().Unix(), 10))
-*/
+
 	return diags
 }
 
