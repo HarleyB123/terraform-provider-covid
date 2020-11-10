@@ -21,7 +21,7 @@ func Provider() *schema.Provider {
 		},
 		DataSourcesMap: map[string]*schema.Resource{
 			"covid_world": dataSourceWorld(),
-//			"country":   dataSourceCountry(),
+//			"country":   dataSourceCountry(), - coming soon
 		},
 		ConfigureContextFunc: providerConfigure,
 	}
