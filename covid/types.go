@@ -6,4 +6,3 @@ type covid struct {
 	Cases float64 `json:"cases"`
 }
 
-type covid []covid
