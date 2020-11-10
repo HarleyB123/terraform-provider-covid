@@ -2,11 +2,10 @@ package covid
 
 import (
 	"context"
-	//"encoding/json"
+	"encoding/json"
 	"net/http"
 	//"strconv"
 	"time"
-	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -54,11 +53,11 @@ func dataSourceWorldRead(ctx context.Context, d *schema.ResourceData, m interfac
 	}
 	defer r.Body.Close()
 
-	fmt.Printf("%v", r)
-/*
 	// Unmarshal data
 	allCountries := &covid{}
 	err = json.NewDecoder(r.Body).Decode(&allCountries)
+	println(err)
+	/*
 	if err != nil {
 		return diag.FromErr(err)
 	}
@@ -67,7 +66,7 @@ func dataSourceWorldRead(ctx context.Context, d *schema.ResourceData, m interfac
 	// Set broken values for all currently available city data
 	for _, v := range allCountries.Countries {
 		country := make(map[string]interface{})
-		country["country"] = v.Country
+		country["country"] = v.Countries
 		country["cases"] = v.Cases
 		countries = append(countries, country)
 	}
@@ -77,8 +76,6 @@ func dataSourceWorldRead(ctx context.Context, d *schema.ResourceData, m interfac
 
 	// Change ID every run to force update
 	d.SetId(strconv.FormatInt(time.Now().Unix(), 10))
-
-	return diags
 */
 	return diags
 }
