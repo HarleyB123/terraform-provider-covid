@@ -67,7 +67,7 @@ func dataSourceWorldRead(ctx context.Context, d *schema.ResourceData, m interfac
 	// Set value for all countries and cases
 	for _, v := range covid {
 		country := make(map[string]interface{})
-		country["country"] = v.Countries
+		country["country"] = v.Country
 		country["cases"] = v.Cases
 		countries = append(countries, country)
 	}
