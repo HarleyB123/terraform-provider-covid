@@ -7,15 +7,15 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 )
 
-func TestAccMccasesCities(t *testing.T) {
+func TestAccCovidWorld(t *testing.T) {
 	casesRegex, _ := regexp.Compile(`^[0-9]+$`)
 	countryRegex, _ := regexp.Compile(`[a-zA-Z]+$`)
 	resource.ParallelTest(t, resource.TestCase{
-		PreCheck:          func() { /* no precheck needed testAccPreCheck(t) */ },
+		PreCheck:          func() {},
 		ProviderFactories: testAccProviderFactories,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccCheckCities(),
+				Config: testAccCheckWorld(),
 				Check: resource.ComposeTestCheckFunc(
 					resource.TestCheckResourceAttrSet(
 						"data.covid_world.all", "countries.0.country"),
@@ -39,6 +39,6 @@ func TestAccMccasesCities(t *testing.T) {
 	})
 }
 
-func testAccCheckCities() string {
+func testAccCheckWorld() string {
 	return `data "covid_world" "all" {}`
 }
