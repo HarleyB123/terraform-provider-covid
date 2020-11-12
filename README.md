@@ -28,4 +28,4 @@ make test
 ## Potential TODO
 
 - Skip first line in JSON output for all countries and make world stats a seperate data source
-- Some sort of Fuzzy Finder (Eg: Did you mean 'Slovakia'?), through [this?](https://github.com/agnivade/levenshtein)
+- Some sort of Fuzzy Finder (Eg: Did you mean 'Slovakia'?), through [this?](https://github.com/agnivade/levenshtein) ✅
