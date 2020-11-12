@@ -26,15 +26,15 @@ func TestAccCovidCountry(t *testing.T) {
 						"data.covid_country.Cyprus", "cases", casesRegex),
 				),
 			},
+			//incorrect spelling country
+			{
+				Config: testAccCheckCountry("Brasil"),
+				ExpectError: regexp.MustCompile("Unable to find Country Brasil, did you mean Brazil?"),
+			},
 			// invalid country
 			{
 				Config: testAccCheckCountry("not_found"),
-				Check: resource.ComposeTestCheckFunc(
-					resource.TestCheckResourceAttr(
-						"data.covid_country.not_found", "country", "not_found"),
-					resource.TestCheckResourceAttr(
-						"data.covid_country.not_found", "cases", "-1"),
-				),
+				ExpectError: regexp.MustCompile("Unable to find Country not_found"),
 			},
 		},
 	})

@@ -7,9 +7,11 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"fmt"
 	"io/ioutil"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/agnivade/levenshtein"
 )
 
 func dataSourceCountry() *schema.Resource {
@@ -55,9 +57,6 @@ func dataSourceCountryRead(ctx context.Context, d *schema.ResourceData, m interf
 		return diag.FromErr(err)
 	}
 
-	if err := d.Set("cases", -1); err != nil {
-		return diag.FromErr(err)
-	}
 
 	for _, v := range covid {
 		if strings.EqualFold(v.Country, userChosenCountry) {
@@ -67,6 +66,30 @@ func dataSourceCountryRead(ctx context.Context, d *schema.ResourceData, m interf
 			break
 		}
 	}
+
+	if d.Get("cases").(float64) == 0 {
+		for _, v := range covid {
+			distance := levenshtein.ComputeDistance(v.Country, userChosenCountry)
+			if distance <= 2 {
+				diags = append(diags, diag.Diagnostic{
+					Severity: diag.Error,
+					Summary:  "User Country not Found",
+					Detail:   fmt.Sprintf("Unable to find Country %v, did you mean %s?", userChosenCountry, v.Country),
+				})
+				return diags
+			}
+		}
+	}
+
+	if d.Get("cases").(float64) == 0 {
+		diags = append(diags, diag.Diagnostic{
+			Severity: diag.Error,
+			Summary:  "User Country not Found",
+			Detail:   fmt.Sprintf("Unable to find Country %v", userChosenCountry),
+		})
+		return diags
+	}
+
 	// Change ID every run to force update
 	d.SetId(strconv.FormatInt(time.Now().Unix(), 10))
 

@@ -24,3 +24,24 @@ output "all_available_countries" {
 output "cyprus_cases" {
   value = data.covid_country.Cyprus.cases
 }
+
+
+// Uncomment these if you want to test failure cases
+
+/*
+data "covid_country" "slightly_mispelled" {
+   country = "Brasil" // should be Brazil
+}
+
+output "mispell_error" {
+   value = data.covid_country.slightly_mispelled.cases
+}
+
+data "covid_country" "not_a_country" {
+   country = "blahblahland"
+}
+
+output "not_a_country_error" {
+   value = data.covid_country.not_a_country.cases
+}
+*/
